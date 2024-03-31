@@ -84,7 +84,6 @@ public class ristinollaTaulukko{
 	
 	//public boolean checkVoitto(){
 		//logiikka voiton katsomiseen, teen tämän myöhemmin, kun keksin järkevän (ja nopean) tavan siihen
-	//test
 	//}
 	
 
