@@ -1,3 +1,5 @@
+package oh2_harjoitustyo.ristinolla;
+
 public class ristinollaTaulukko{
 	private ristinollaTaulukko[][] alaTaulu;
 	private Boolean[][] taulu = new Boolean[3][3];
@@ -19,7 +21,7 @@ public class ristinollaTaulukko{
 					this.alaTaulu[i][j] = new ristinollaTaulukko(kerros,this);
 				}
 			}
-		}		
+		}
 	}
 
 	public ristinollaTaulukko(byte k,ristinollaTaulukko isaSolmu){
@@ -80,13 +82,14 @@ public class ristinollaTaulukko{
 		}
 	}
 	
-	public boolean checkVoitto(){
+	//public boolean checkVoitto(){
 		//logiikka voiton katsomiseen, teen tämän myöhemmin, kun keksin järkevän (ja nopean) tavan siihen
-	}
+	//test
+	//}
 	
 
 	public static void main(String[] args){
-		byte ok = 100;
+		byte ok = 3;
 		ristinollaTaulukko wack = new ristinollaTaulukko(ok);
 		System.out.println(wack.getTaulu());
 		System.out.println(wack.getVoittaja());
