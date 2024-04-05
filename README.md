@@ -3,7 +3,9 @@
 ## Status:
 - UI elements mostly implemented
 - Functionality with user events missing entirely
+- Javadoc missing
 - Everything else mostly implemented
+
 
 ### Usage
 - Compile with
