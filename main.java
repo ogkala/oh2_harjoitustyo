@@ -25,18 +25,6 @@ public class main extends Application{
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		double screenWidth = screenSize.getWidth();
 		double screenHeight = screenSize.getHeight();
-		double sideSize = (screenWidth-screenHeight)/2;
-		double taulukkoVali = screenHeight/3;
-		//
-		BorderPane pohja = new BorderPane();
-		StackPane keskiPohja = new StackPane();
-		GridPane alku = new GridPane();
-		//Pysyva UI
-		Color pohjavari = Color.GRAY;
-		Rectangle vasenPohja = new Rectangle(0,0,sideSize,screenHeight);
-		Rectangle oikeaPohja = new Rectangle(screenWidth-sideSize,0,sideSize,screenHeight);
-		vasenPohja.setFill(pohjavari);
-		oikeaPohja.setFill(pohjavari);
 		//
 		ristinollaTaulukko rn1 = new ristinollaTaulukko(3);
 		rn1.setTauluAlkio(false,0,0);
@@ -44,17 +32,13 @@ public class main extends Application{
 		rn1.getAlaTaulu()[1][1].setTauluAlkio(true,1,0);
 		rn1.getAlaTaulu()[2][1].getAlaTaulu()[0][1].setTauluAlkio(false,0,1);
 		rn1.getAlaTaulu()[2][1].getAlaTaulu()[0][1].setTauluAlkio(true,2,1);
+		//
 		rnTaulukkoFX testi = new rnTaulukkoFX(screenHeight, rn1);
-		keskiPohja.getChildren().add(testi);
+		Menu menu = new Menu(screenWidth, screenHeight);
+		menu.setCenter(testi);
 		
 
-		pohja.setLeft(vasenPohja);
-		pohja.setRight(oikeaPohja);
-		pohja.setCenter(keskiPohja);
-		
-
-
-		Scene kehys = new Scene(pohja);
+		Scene kehys = new Scene(menu);
         primaryStage.setScene(kehys);
         primaryStage.setTitle("Ristinolla");
 		primaryStage.setFullScreen(true);
@@ -62,14 +46,12 @@ public class main extends Application{
         primaryStage.show();
 		System.out.println(screenHeight);
 		System.out.println(screenWidth);
+		menu.paivitaVuoro(true);
 	}
-	
-	//public Pane getRisti(double koko){
-		
-	//}
 	
 	public static void main(String[] args){
 		launch(args);
 	}	
 }
 
+//.setStyle("-fx-border-color: green;\n-fx-border-width: 3;\n-fx-border-style: dashed;\n");
