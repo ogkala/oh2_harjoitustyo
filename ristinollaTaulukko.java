@@ -1,20 +1,18 @@
-package oh2_harjoitustyo.ristinolla;
-
 public class ristinollaTaulukko{
 	private ristinollaTaulukko[][] alaTaulu;
 	private Boolean[][] taulu = new Boolean[3][3];
 	private Boolean voittaja;
 	private boolean taysi; //optional, in case I want to implement where you can place in already won tables
-	private byte kerros;
+	private int kerros;
 	private ristinollaTaulukko isa;
 	
 	public ristinollaTaulukko(){
 		this.kerros = 0;
 	}
 	
-	public ristinollaTaulukko(byte k){
+	public ristinollaTaulukko(int k){
 		this.alaTaulu = new ristinollaTaulukko[3][3];
-		this.kerros = (byte)(k-1);
+		this.kerros = k-1;
 		if (k > 0){
 			for (int i = 0; i < 3; i++){
 				for (int j = 0; j < 3; j++){
@@ -24,9 +22,9 @@ public class ristinollaTaulukko{
 		}
 	}
 
-	public ristinollaTaulukko(byte k,ristinollaTaulukko isaSolmu){
+	public ristinollaTaulukko(int k,ristinollaTaulukko isaSolmu){
 		this.alaTaulu = new ristinollaTaulukko[3][3];
-		this.kerros = (byte)(k-1);
+		this.kerros = k-1;
 		this.isa = isaSolmu;
 		if (k > 0){
 			for (int i = 0; i < 3; i++){
@@ -53,7 +51,7 @@ public class ristinollaTaulukko{
 		return taysi;
 	}
 	
-	public byte getKerros(){
+	public int getKerros(){
 		return kerros;
 	}
 
@@ -83,12 +81,12 @@ public class ristinollaTaulukko{
 	}
 	
 	//public boolean checkVoitto(){
-		//logiikka voiton katsomiseen, teen tämän myöhemmin, kun keksin järkevän (ja nopean) tavan siihen 
+		//logiikka voiton katsomiseen, teen tämän myöhemmin, kun keksin järkevän (ja nopean) tavan siihen
 	//}
 	
 
 	public static void main(String[] args){
-		byte ok = 3;
+		int ok = 3;
 		ristinollaTaulukko wack = new ristinollaTaulukko(ok);
 		System.out.println(wack.getTaulu());
 		System.out.println(wack.getVoittaja());
