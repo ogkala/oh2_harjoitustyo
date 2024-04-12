@@ -1,17 +1,10 @@
 # oh2_harjoitustyo
 
-## Status:
-- UI elements mostly implemented
-- Functionality with user events missing entirely
-- Javadoc missing
-- Everything else mostly implemented
-
-
 ### Usage
 - Compile with
-`javac --module-path $your_javafx_path --add-modules javafx.controls main.java`
+`javac -d . --module-path $your_javafx_path --add-modules javafx.controls *.java`
 - Use with
-`java --module-path $your_javafx_path --add-modules javafx.controls main`
+`java --module-path $your_javafx_path --add-modules javafx.controls oh2_harjoitustyo.main`
 
 
 

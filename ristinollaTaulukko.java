@@ -1,4 +1,4 @@
-package ristinolla;
+package oh2_harjoitustyo;
 
 import java.io.Serializable;
 

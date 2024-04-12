@@ -1,4 +1,4 @@
-package ristinolla;
+package oh2_harjoitustyo;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

@@ -1,4 +1,4 @@
-package ristinolla;
+package oh2_harjoitustyo;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.GridPane;

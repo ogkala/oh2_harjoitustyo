@@ -1,4 +1,4 @@
-package ristinolla;
+package oh2_harjoitustyo;
 
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -125,7 +125,7 @@ public class Menu extends BorderPane{
 	
 	/**
 	Save Game-napin handleri.
-	@param event		ActionEvent napin painamisesta.
+	@param event		ActionEvent napin painamisesta. Pystyy tallentaan yhden pelin.
 	*/
 	public void saveGameHandler(ActionEvent event){
 		System.out.println("Save");
@@ -143,7 +143,7 @@ public class Menu extends BorderPane{
 	}
 	
 	/**
-	Load Game-napin handleri.
+	Load Game-napin handleri. Pystyy käsittelemään yhtä tallennettua peliä.
 	@param event		ActionEvent napin painamisesta.
 	*/
 	public void loadGameHandler(ActionEvent event){
@@ -221,8 +221,8 @@ public class Menu extends BorderPane{
 				makeTaulukkoFX();
 				
 				if (kerros == 10){
-					System.out.println("You won");
 					this.playableX = new int[] {20,20};
+					setVoitto(true);
 					return;
 				}
 
@@ -263,6 +263,33 @@ public class Menu extends BorderPane{
 				rnFX.getChildren().add(alue);
 			}
 		}
+	}
+	
+	/**
+	Asettaa voittajan näkyville oikeaan reunaan.
+	@param voittaja		Pelaaja joka voitti pelin.
+	*/	
+	public void setVoitto(boolean voittaja){
+		StackPane oikea = new StackPane();
+		Rectangle oikeaPohja = new Rectangle(0, 0, sivuKoko,korkeus);
+		oikeaPohja.setFill(pohjavari);
+		VBox voittoBox = new VBox();
+		Label voitto = new Label("Voitti!");
+		voitto.setStyle("-fx-font-size:20");
+		Pane p1 = new Pane();
+		p1.setMaxWidth(korkeus / 4);
+		Pane realVoitto;
+		if (voittaja){
+			realVoitto = rnTaulukkoFX.getNolla(korkeus / 4);
+		} else{
+			realVoitto = rnTaulukkoFX.getRisti(korkeus / 4);
+		}
+		p1.getChildren().add(realVoitto);
+		voittoBox.setAlignment(Pos.CENTER);
+		voittoBox.getChildren().addAll(p1,voitto);
+		oikea.getChildren().addAll(oikeaPohja,voittoBox);
+		setRight(oikea);
+		
 	}
 }
 
