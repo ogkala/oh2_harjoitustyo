@@ -15,6 +15,8 @@ import javafx.geometry.Pos;
 import javafx.geometry.Insets;
 import javafx.scene.input.KeyCombination;
 
+import javafx.scene.input.MouseEvent;
+
 import java.awt.Toolkit;
 import java.awt.Dimension;
 
@@ -26,19 +28,10 @@ public class main extends Application{
 		double screenWidth = screenSize.getWidth();
 		double screenHeight = screenSize.getHeight();
 		//
-		ristinollaTaulukko rn1 = new ristinollaTaulukko(3);
-		rn1.setTauluAlkio(false,0,0);
-		rn1.setTauluAlkio(true,1,2);
-		rn1.getAlaTaulu()[1][1].setTauluAlkio(true,1,0);
-		rn1.getAlaTaulu()[2][1].getAlaTaulu()[0][1].setTauluAlkio(false,0,1);
-		rn1.getAlaTaulu()[2][1].getAlaTaulu()[0][1].setTauluAlkio(true,2,1);
-		//
-		rnTaulukkoFX testi = new rnTaulukkoFX(screenHeight, rn1);
-		Menu menu = new Menu(screenWidth, screenHeight);
-		menu.setCenter(testi);
-		
+		Menu menu = new Menu(screenWidth, screenHeight);		
 
 		Scene kehys = new Scene(menu);
+		kehys.setOnMouseClicked(menu::clickHandler);
         primaryStage.setScene(kehys);
         primaryStage.setTitle("Ristinolla");
 		primaryStage.setFullScreen(true);
@@ -46,12 +39,11 @@ public class main extends Application{
         primaryStage.show();
 		System.out.println(screenHeight);
 		System.out.println(screenWidth);
-		menu.paivitaVuoro(true);
 	}
 	
 	public static void main(String[] args){
 		launch(args);
-	}	
+	}
 }
 
 //.setStyle("-fx-border-color: green;\n-fx-border-width: 3;\n-fx-border-style: dashed;\n");
