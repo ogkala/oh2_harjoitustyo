@@ -1,24 +1,26 @@
-import javafx.application.Application;
-import javafx.scene.Scene;
+package ristinolla;
+
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.RowConstraints;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Circle;
-import javafx.stage.Stage;
-import javafx.event.*;
 import javafx.geometry.Pos;
-import javafx.geometry.Insets;
 import javafx.scene.input.MouseEvent;
+import javafx.event.ActionEvent;
+import java.io.FileOutputStream;
+import java.io.FileInputStream;
+import java.io.ObjectOutputStream;
+import java.io.ObjectInputStream;
 
+/**
+Pelin menu-luokka, jossa sisältyy myös pelin funktionaalisuus.
+*/
 public class Menu extends BorderPane{
 	private static final Color pohjavari = Color.GRAY;
 	private double leveys;
@@ -31,6 +33,11 @@ public class Menu extends BorderPane{
 	private int[] playableX = {10};
 	private int[] playableY = {10};
 	
+	/**
+	Rakentaa halutun kokoisen menun.
+	@param leveys		Halutun menun leveys.
+	@param korkeus		Halutun menun korkeus.
+	*/
 	public Menu(double leveys, double korkeus){
 		this.leveys = leveys;
 		this.korkeus = korkeus;
@@ -40,6 +47,9 @@ public class Menu extends BorderPane{
 		makeTaulukkoFX();
 	}
 	
+	/**
+	Rakentaa menun valmiiksi.
+	*/
 	public void piirraMenu(){
 		StackPane vasen = new StackPane();
 		StackPane oikea = new StackPane();
@@ -55,6 +65,10 @@ public class Menu extends BorderPane{
 		Button tallenna = new Button("Save Game");
 		gameNapit.setAlignment(Pos.CENTER);
 		gameNapit.getChildren().addAll(uusi,lataa,tallenna);
+		//nappi funktionaliteetti
+		uusi.setOnAction(this::newGameHandler);
+		lataa.setOnAction(this::loadGameHandler);
+		tallenna.setOnAction(this::saveGameHandler);
 		//oikea
 		VBox vuoroBox = new VBox();
 		Label vuoroLabel = new Label("Pelaaja:");
@@ -71,11 +85,18 @@ public class Menu extends BorderPane{
 		setRight(oikea);
 	}
 	
+	/**
+	Rakentaa ristinolla taulukon menun keskelle.
+	*/
 	public void makeTaulukkoFX(){
 		this.rnFX = new rnTaulukkoFX(korkeus, rn);
 		setCenter(rnFX);
 	}
 	
+	/**
+	Paivittaa kumman pelaajan vuoron menun oikealle.
+	@param fvuoro		Halutun pelaajan vuoro.
+	*/
 	public void paivitaVuoro(boolean fvuoro){
 		if (fvuoro){
 			vuoroPane.getChildren().clear();
@@ -89,6 +110,86 @@ public class Menu extends BorderPane{
 		}
 	}
 	
+	/**
+	New Game-napin handleri.
+	@param event		ActionEvent napin painamisesta.
+	*/
+	public void newGameHandler(ActionEvent event){
+		rn.resetTaulu();
+		this.vuoro = false;
+		paivitaVuoro(false);
+		makeTaulukkoFX();
+		this.playableX = new int[] {10};
+		this.playableY = new int[] {10};
+	}
+	
+	/**
+	Save Game-napin handleri.
+	@param event		ActionEvent napin painamisesta.
+	*/
+	public void saveGameHandler(ActionEvent event){
+		System.out.println("Save");
+		rn.setGameVars(playableX, playableY, vuoro);
+		//
+		try {
+			FileOutputStream fileOutputStream = new FileOutputStream("Savefile.rn");
+			ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
+			objectOutputStream.writeObject(rn);
+			objectOutputStream.flush();
+			objectOutputStream.close();
+		} catch(Exception ex){
+		}
+
+	}
+	
+	/**
+	Load Game-napin handleri.
+	@param event		ActionEvent napin painamisesta.
+	*/
+	public void loadGameHandler(ActionEvent event){
+		System.out.println("Load");
+		try {
+			FileInputStream fileInputStream = new FileInputStream("Savefile.rn");
+			ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
+			rn = (ristinollaTaulukko) objectInputStream.readObject();
+			objectInputStream.close();
+			this.playableX = rn.getPX();
+			this.playableY = rn.getPY();
+			System.out.println(playableX[0]);
+			System.out.println(playableY[0]);
+			this.vuoro = rn.getVuoro();
+			//
+			paivitaVuoro(vuoro);
+			makeTaulukkoFX();
+			Rectangle tempAlue = new Rectangle();
+			if (playableX.length == 2){
+				tempAlue.setX(playableX[0]*(korkeus/3) + playableX[1]*(korkeus/9));
+				tempAlue.setY(playableY[0]*(korkeus/3) + playableY[1]*(korkeus/9));
+				tempAlue.setWidth(korkeus/9);
+				tempAlue.setHeight(korkeus/9);
+			} else if(playableX[0] == 10){
+				tempAlue.setX(0);
+				tempAlue.setY(0);
+				tempAlue.setWidth(korkeus);
+				tempAlue.setHeight(korkeus);
+			} else{
+				tempAlue.setX(playableX[0]*(korkeus/3));
+				tempAlue.setY(playableY[0]*(korkeus/3));
+				tempAlue.setWidth(korkeus/3);
+				tempAlue.setHeight(korkeus/3);
+			}
+			tempAlue.setFill(Color.rgb(255,0,0,0.2));
+			rnFX.getChildren().add(tempAlue);
+		} catch(Exception ex){
+		}
+
+	}
+	
+	/**
+	Hiiren painamisen taulukkoon handleri. Sisältää pelin logiikan.
+	
+	@param event		MouseEvent hiiren painamisesta.
+	*/
 	public void clickHandler(MouseEvent event){
 		double x = event.getX();
 		double y = event.getY();
@@ -115,14 +216,16 @@ public class Menu extends BorderPane{
 				}
 				int kerros = rn.getAlaTaulu()[x1][y1].getAlaTaulu()[x2][y2].setTauluAlkio(vuoro,x3,y3);
 				
-				if (kerros == 10){
-					System.out.println("You won");
-					return;
-				}
-				
 				this.vuoro = !vuoro;
 				paivitaVuoro(vuoro);
 				makeTaulukkoFX();
+				
+				if (kerros == 10){
+					System.out.println("You won");
+					this.playableX = new int[] {20,20};
+					return;
+				}
+
 				Rectangle alue = new Rectangle();
 				double koko3 = korkeus/3;
 				double koko9 = korkeus/9;
@@ -134,7 +237,7 @@ public class Menu extends BorderPane{
 						if (rn.getAlaTaulu()[x1][y1].getTaysi()){
 							this.playableX = new int[] {10};
 							this.playableY = new int[] {10};
-							alue = new Rectangle(0, 0, korkeus, korkeus);							
+							alue = new Rectangle(0, 0, korkeus, korkeus);
 						}
 					} else {
 						this.playableX = new int[] {x1,x3};

@@ -1,3 +1,5 @@
+package ristinolla;
+
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.ColumnConstraints;
@@ -6,12 +8,20 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Circle;
 
+/**
+Pelin luokka, joka hoitaa taulukon graafiset komponentit.
+*/
+
 
 public class rnTaulukkoFX extends Pane{
-	
 	private double koko;
 	private ristinollaTaulukko taulu;
-
+	
+	/**
+	Konstruktoi rnTaulukkoFX-olion.
+	@param koko		Taulukon haluttu koko
+	@param rn		ristinollaTaulukko, josta taulukko rakennetaan.
+	*/
 	public rnTaulukkoFX(double koko, ristinollaTaulukko rn){
 		this.koko = koko;
 		this.taulu = rn;
@@ -21,6 +31,7 @@ public class rnTaulukkoFX extends Pane{
 			getChildren().add(piirraTaulukko(taulu, koko, 2));
 		}
 	}
+	
 	
 	private Pane piirraTaulukko(ristinollaTaulukko taulu, double koko, int kerros){
 		Pane tauluPohja = getTaulukko(koko);
@@ -49,7 +60,11 @@ public class rnTaulukkoFX extends Pane{
 		return tauluPohja;
 	}
 	
-	
+	/**
+	Metodi joka palauttaa halutun kokoisen tyhjän taulukon.
+	@param koko			Halutun taulukon koko.
+	@return 			Pane:n jossa sisällä halutun kokoinen taulukko.	
+	*/
 	//Grafiiset komponentit
 	public static Pane getTaulukko(double koko){ //taulun koko
 		double siivu = koko / 3;
@@ -71,6 +86,11 @@ public class rnTaulukkoFX extends Pane{
 		return p1;
 	}
 	
+	/**
+	Metodi joka palauttaa halutun kokoisen ristin.
+	@param koko			Halutn ristin koko.
+	@return				Pane:n jossa sisällä halutun kokoinen risti.
+	*/
 	public static Pane getRisti(double koko){ //Ruudun, ei koko taulun koko
 		Pane p1 = new Pane();
 		double leveys = (Math.log(koko) / Math.log(3)) - 1;
@@ -81,7 +101,12 @@ public class rnTaulukkoFX extends Pane{
 		p1.getChildren().addAll(l1,l2);
 		return p1;
 	}
-	
+
+	/**
+	Metodi joka palauttaa halutun kokoisen nollan.
+	@param koko			Halutn nollan koko.
+	@return				Pane:n jossa sisällä halutun kokoinen nolla.
+	*/
 	public static Pane getNolla(double koko){ //Ruudun, ei koko taulun koko
 		Pane p1 = new Pane();
 		double leveys = (Math.log(koko) / Math.log(3)) - 1;
