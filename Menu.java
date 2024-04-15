@@ -216,15 +216,15 @@ public class Menu extends BorderPane{
 				}
 				int kerros = rn.getAlaTaulu()[x1][y1].getAlaTaulu()[x2][y2].setTauluAlkio(vuoro,x3,y3);
 				
-				this.vuoro = !vuoro;
-				paivitaVuoro(vuoro);
 				makeTaulukkoFX();
-				
 				if (kerros == 10){
 					this.playableX = new int[] {20,20};
-					setVoitto(true);
+					setVoitto(vuoro);
 					return;
 				}
+				
+				this.vuoro = !vuoro;
+				paivitaVuoro(vuoro);
 
 				Rectangle alue = new Rectangle();
 				double koko3 = korkeus/3;
