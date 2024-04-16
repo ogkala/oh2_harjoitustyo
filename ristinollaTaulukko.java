@@ -1,6 +1,7 @@
 package oh2_harjoitustyo;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
 Perus olio, jossa pelin data säilötään.
@@ -180,17 +181,21 @@ public class ristinollaTaulukko implements Serializable{
 	*/
 	//lazy brute approach
 	public boolean checkVoitto(Boolean pelaaja, int x, int y){
-		if (getTaulu()[x][0] == pelaaja && getTaulu()[x][1] == pelaaja && getTaulu()[x][2] == pelaaja){
-			return true;
-		}
-		if (getTaulu()[0][y] == pelaaja && getTaulu()[1][y] == pelaaja && getTaulu()[2][y] == pelaaja){
-			return true;
-		}
-		if (getTaulu()[0][0] == pelaaja && getTaulu()[1][1] == pelaaja && getTaulu()[2][2] == pelaaja){
-			return true;
-		}
-		if (getTaulu()[0][2] == pelaaja && getTaulu()[1][1] == pelaaja && getTaulu()[2][0] == pelaaja){
-			return true;
+		try{
+			if (Objects.equals(getTaulu()[x][0], pelaaja) && Objects.equals(getTaulu()[x][1], pelaaja) && Objects.equals(getTaulu()[x][2], pelaaja)){
+				return true;
+			}
+			if (Objects.equals(getTaulu()[0][y], pelaaja) && Objects.equals(getTaulu()[1][y], pelaaja) && Objects.equals(getTaulu()[2][y], pelaaja)){
+				return true;
+			}
+			if (Objects.equals(getTaulu()[0][0], pelaaja) && Objects.equals(getTaulu()[1][1], pelaaja) && Objects.equals(getTaulu()[2][2], pelaaja)){
+				return true;
+			}
+			if (Objects.equals(getTaulu()[0][2], pelaaja) && Objects.equals(getTaulu()[1][1], pelaaja) && Objects.equals(getTaulu()[2][0], pelaaja)){
+				return true;
+			}
+		} catch(NullPointerException ex){
+			System.out.println(ex);
 		}
 		return false;
 	}
